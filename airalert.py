@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import http.client, urllib
+import httplib, urllib
 import pprint
 import sys
 import json
@@ -26,7 +26,7 @@ def fetchAqi():
     read_key = purple_configs['ReadKey']
     sensor_id = purple_configs['Sensor']
 
-    conn = http.client.HTTPSConnection("api.purpleair.com")
+    conn = httplib.HTTPSConnection("api.purpleair.com")
     conn.request(
       "GET",
       "/v1/sensors/{sensor_id}".format(sensor_id=sensor_id),
@@ -56,7 +56,7 @@ def sendMessage(message):
     if TEST_MODE:
         message = "TEST: " + message
 
-    conn = http.client.HTTPSConnection("api.pushover.net:443")
+    conn = httplib.HTTPSConnection("api.pushover.net:443")
     conn.request("POST", "/1/messages.json",
       urllib.urlencode({
         "token": push_token,
