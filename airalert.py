@@ -8,6 +8,7 @@ import argparse
 import configparser
 import time
 import os
+import datetime
 
 try:
     import aqi
@@ -37,7 +38,8 @@ def fetchAqi():
       (aqi.POLLUTANT_PM25, result['pm2.5_atm']),
       (aqi.POLLUTANT_PM10, result['pm10.0_atm'])
     ])
-    print(f"Readings for {result['name']} - 2.5: {result['pm2.5_atm']}, 10.0: {result['pm10.0_atm']}, AQI: {this_aqi}")
+    ct = datetime.datetime.now()
+    print(f"{ct}: Readings for {result['name']} - 2.5: {result['pm2.5_atm']}, 10.0: {result['pm10.0_atm']}, AQI: {this_aqi}")
     return this_aqi
 
 def sendMessage(message):
