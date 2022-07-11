@@ -1,1 +1,7 @@
+# General
+.DS_Store
+
+# Personal stuff
 app.cfg
+*.app
+*.log

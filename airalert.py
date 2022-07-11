@@ -25,11 +25,18 @@ def fetchAqi():
     purple_configs = config['purpleair']
     read_key = purple_configs['ReadKey']
     sensor_id = purple_configs['Sensor']
+    private_key = purple_configs.get('PrivateReadKey')
+
+    url = f"/v1/sensors/{sensor_id}"
+
+    # Not sure why purple isn't accepting urlencoded creds, but seems like manual appending like this works for now.
+    if private_key:
+        url += f"?read_key={private_key}"
 
     conn = http.client.HTTPSConnection("api.purpleair.com")
     conn.request(
       "GET",
-      f"/v1/sensors/{sensor_id}",
+      url,
       headers={"X-API-Key": read_key}
     )
 

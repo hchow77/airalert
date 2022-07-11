@@ -15,6 +15,11 @@ and [Pushover's notification system](https://pushover.net/).
         - Selecting a public sensor
         - Hover your cursor over the "Get This Widget" text and select the Download Data link.
         - The sensor id should be a 5-6 digit number in the url of the link you just selected.
+        - Note: Private Sensors
+            - If you have a private sensor you'd like to use:
+                - Retrieve the sensor ID via your registration email, where it should show up in the url links as the "show" argument.
+                - Also retrieve the `read_key` in your registration email, where it should show up in the url links as the "key" argument.
+                - Ex: Your "Download data" link might look something like "https://www.purpleair.com/sensorlist?show=123456&key=ABCDEF123456", where "123456" is the sensor ID, and "ABCDEF123456" is the read key.
     - Set your preferred air levels and frequency at which you would like to be notified.
         - TriggerLevel: The AQI at which if air quality goes above this level, the program will send a notification.
         - HealthyLevel: The AQI at which if the air was previously above the TriggerLevel, the program will notify if the air quality returns below HealthyLevel.
