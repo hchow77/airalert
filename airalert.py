@@ -104,12 +104,13 @@ def run():
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--test', action='store_true', help="Run in test mode, generating fake values with a 2 second iteration.")
+parser.add_argument('--config', nargs='?', const='app.cfg', help="Path to the config file. Defaults to 'app.cfg' in directory with this script.")
 args = parser.parse_args()
 
 if args.test:
     TEST_MODE = True
 
-configpath = os.path.join(os.path.dirname(__file__), 'app.cfg')
+configpath = os.path.join(os.path.dirname(__file__), args.config)
 config.read(configpath)
 
 try:

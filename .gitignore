@@ -2,6 +2,7 @@
 .DS_Store
 
 # Personal stuff
-app.cfg
+*.cfg
+!template.cfg
 *.app
 *.log

@@ -38,6 +38,9 @@ and [Pushover's notification system](https://pushover.net/).
     Successfully sent push note.
     ```
     - Abort the script using ctrl-c
+    - If you'd like to define a separate config to run against a different device
+        - Create a separate copy of the config, named how you'd like.
+        - Run the script with the `--config <path>` argument, where `<path>` is the path to your newly defined configuration file.
 
 ## Troubleshooting/Development
 If you're having issues with the the notification system, or just want to test run the script,
