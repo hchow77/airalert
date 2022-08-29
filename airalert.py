@@ -48,8 +48,9 @@ def fetchAqi():
       (aqi.POLLUTANT_PM10, result['pm10.0_atm'])
     ])
     ct = datetime.datetime.now()
-    print(f"{ct}: Readings for {result['name']} - 2.5: {result['pm2.5_atm']}, 10.0: {result['pm10.0_atm']}, AQI: {this_aqi}")
-    return this_aqi
+    location = result['name']
+    print(f"{ct}: Readings for {location} - 2.5: {result['pm2.5_atm']}, 10.0: {result['pm10.0_atm']}, AQI: {this_aqi}")
+    return {'aqi':this_aqi, 'location':location}
 
 def sendMessage(message):
     push_configs = config['pushdata']
@@ -83,28 +84,30 @@ def run():
     healthy = True
     while True:
         if TEST_MODE:
-            value = random.randint(1,100)
+            data = {'aqi':random.randint(1,100), 'location':"TEST"}
             test_interval = 2.0
         else:
-            value = fetchAqi()
-        print("Value: " + str(value))
+            data = fetchAqi()
+        value = data['aqi']
+        location = data['location']
+        print(f"Value for {location}: {value}")
 
         if healthy:
             if value >= trigger_level:
                 print("Value {value} is now unhealthy. Triggering unhealthy notification".format(value=value))
-                sendMessage("Unhealthy AQI detected at {value}!".format(value=value))
+                sendMessage("Unhealthy AQI detected for {location} at {value}!".format(location=location, value=value))
                 healthy = False
         else:
             if value <= healthy_level:
                 print("Value {value} is now healthy! Triggering healthy notification".format(value=value))
-                sendMessage("AQI is healthy again at {value}".format(value=value))
+                sendMessage("AQI is healthy again for {location} at {value}".format(location=location, value=value))
                 healthy = True
 
         time.sleep(test_interval)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--test', action='store_true', help="Run in test mode, generating fake values with a 2 second iteration.")
-parser.add_argument('--config', nargs='?', const='app.cfg', help="Path to the config file. Defaults to 'app.cfg' in directory with this script.")
+parser.add_argument('--config', nargs='?', default='app.cfg', help="Path to the config file. Defaults to 'app.cfg' in directory with this script.")
 args = parser.parse_args()
 
 if args.test:
