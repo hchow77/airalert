@@ -1,5 +1,5 @@
 # airalert
-Queries air quality and alerts if air reaches an unhealthy AQI Level
+Queries air quality and alerts if air reaches an unhealthy Immediate AQI Level
 using [PurpleAir's API](https://community.purpleair.com/t/making-api-calls-with-the-purpleair-api/180)
 and [Pushover's notification system](https://pushover.net/).
 
@@ -25,7 +25,7 @@ and [Pushover's notification system](https://pushover.net/).
         - HealthyLevel: The AQI at which if the air was previously above the TriggerLevel, the program will notify if the air quality returns below HealthyLevel.
             - Note: If Trigger and Healthy are the same, then the system may spam notifications if air quality is consistently remaining at that level, so its recommended to at least set HealthyLevel a little under TriggerLevel.
         - TestInterval: The number of seconds between each query of air quality. Recommend at least 15 minutes (900) to stay friendly with Purple system and your pushover notification budget.
-- If you don't already have it, install the [python-aqi library](https://pypi.org/project/python-aqi/) for calculating aqi from air quality values.
+- If you don't already have it, install the [python-aqi library](https://pypi.org/project/python-aqi/) for calculating IAQI from air quality values.
 - Run the script!: `python3 airalert.py`
     - Sample Output: 
     ```

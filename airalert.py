@@ -34,11 +34,14 @@ def fetchAqi():
         url += f"?read_key={private_key}"
 
     conn = http.client.HTTPSConnection("api.purpleair.com")
-    conn.request(
-      "GET",
-      url,
-      headers={"X-API-Key": read_key}
-    )
+    try:
+      conn.request(
+        "GET",
+        url,
+        headers={"X-API-Key": read_key}
+      )
+    except TimeoutError:
+      print(f"AQI request for {sensor_id} timedout. Retrying later...", file=sys.stderr)
 
     response = conn.getresponse().read().decode()
     results = json.loads(response)
@@ -82,12 +85,24 @@ def run():
     test_interval = config.getfloat('configlevels', 'TestInterval') # Time in seconds
     
     healthy = True
+    timeout = 0
     while True:
         if TEST_MODE:
             data = {'aqi':random.randint(1,100), 'location':"TEST"}
             test_interval = 2.0
         else:
             data = fetchAqi()
+
+        if not data:
+            timeout += 1
+            if timeout >= 3:
+                print("System Timed Out more than 3 times in a row. Aborting...")
+                sys.exit(1)
+            time.sleep(test_interval)
+            continue
+        else:
+            timeout = 0
+
         value = data['aqi']
         location = data['location']
         print(f"Value for {location}: {value}")
